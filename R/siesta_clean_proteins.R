@@ -1,4 +1,4 @@
-siesta.clean.proteins <- function(data = data){
+siesta_clean_proteins <- function(data = data){
     data <- data %>%
       filter(is.na(`Only identified by site`)) %>%
       filter(is.na(`Potential contaminant`)) %>%
