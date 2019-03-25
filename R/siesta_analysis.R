@@ -63,9 +63,9 @@ siesta_analysis <- function(results, treatment, vehicle){
     })
   write_tsv(rE, "E_vs_nE.tsv")
   
-  #S vs. (C)
+  #S vs. (E, C)
   rS <- results.t %>%
-    filter(Treatment == "Sub" | Treatment == "Cntrl" ) %>%
+    filter(Treatment != "SubEnz") %>%
     group_by(id) %>%
     do({
       t <- .
