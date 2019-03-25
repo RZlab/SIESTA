@@ -35,7 +35,6 @@ siesta_normalizeTR <- function(data, limits = list("low" = c(42, 0.8), "high" = 
       model = list(model)
     ) %>%
     arrange(desc(Rsq))
-  print(summary(models$model[[1]]))
   model_best <- models$model[[1]]
   message(sprintf("Normalization curve R-squared: %.2f", models$Rsq[[1]]))
   
