@@ -1,15 +1,18 @@
 siesta_analysis <- function(results, treatment, vehicle){
-  require(broom)
+ require(broom)
   require(tidyverse)
 
   results.t <- results %>%
+    filter(rSquared >= 0.95) %>%
     filter(term == "Tm") %>%
     dplyr::select(-c(term, std.error:rSquared)) %>%
     separate(Sample, sep = "_", remove = F, c("Cell_line", "Treatment", "Rep"))
   
   ggplot(results.t) +
     geom_density(aes(x = estimate, fill = Sample), alpha = 0.2) +
-    theme_minimal()
+    facet_wrap(~Treatment, ncol = 2) +
+    theme_minimal() +
+    theme(legend.position = "bottom")
   
   #ES vs. (E, S, C)
   rES <- results.t %>%
@@ -125,5 +128,4 @@ siesta_analysis <- function(results, treatment, vehicle){
     theme_minimal() +
     geom_hline(yintercept = 0) +
     geom_vline(xintercept = 0)
-
 }
