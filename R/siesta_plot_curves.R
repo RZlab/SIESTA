@@ -34,12 +34,12 @@ siesta_plot_curves <- function(Curves = curves,
             R2 = sprintf("%.2f", rSquared)
           )  %>% filter(term == 'Tm') %>%
             select(Sample, V, se) %>%
-            unite(Val, V, se, sep="?") %>%
-            spread(Sample, Val), theme = ttheme_minimal(base_size = 6), rows=""))
+            unite(Val, V, se, sep="±") %>%
+            spread(Sample, Val), theme = ttheme_minimal(base_size = 5), rows=""))
         
         m1 <- arrangeGrob(gg1, gg2, heights=c(13, 1))
         
-        ggsave(paste("fit_", id[i], ".pdf", sep = ""), plot = m1, device = "pdf", width = 6, height = 6)
+        ggsave(paste("fit_", id[i], ".pdf", sep = ""), plot = m1, device = "pdf", width = 7, height = 7)
       }
     }
     stopCluster(cl)
