@@ -21,13 +21,9 @@ siesta_analysis <- function(results, treatment, vehicle){
       t <- .
       pid <- unique(t$id)
       
-      ES <- t %>%
-        filter(Treatment == "ATPEnz")
-      
-      nES <- t %>%
-        filter(Treatment != "ATPEnz")
-      
-      
+      ES <- t %>% filter(Treatment == "SubEnz")
+      nES <- t %>% filter(Treatment != "SubEnz")
+            
       if(nrow(ES) >= 2 & nrow(nES) >= 2){
         t.test <- try(t.test(ES$estimate, nES$estimate, var.equal = T)$p.value, silent = T)
         
@@ -44,18 +40,14 @@ siesta_analysis <- function(results, treatment, vehicle){
   
   #E vs. (S, C)
   rE <- results.t %>%
-    filter(Treatment != "ATPEnz") %>%
+    filter(Treatment != "SubEnz") %>%
     group_by(id) %>%
     do({
       t <- .
       pid <- unique(t$id)
       
-      E <- t %>%
-        filter(Treatment == "Enz")
-      
-      nE <- t %>%
-        filter(Treatment != "Enz")
-      
+      E <- t %>% filter(Treatment == "Enz")
+      nE <- t %>% filter(Treatment != "Enz")
       
       if(nrow(E) >= 2 & nrow(nE) >= 2){
         t.test <- try(t.test(E$estimate, nE$estimate, var.equal = T)$p.value, silent = T)
@@ -73,18 +65,14 @@ siesta_analysis <- function(results, treatment, vehicle){
   
   #S vs. (C)
   rS <- results.t %>%
-    filter(Treatment == "ATP" | Treatment == "C" ) %>%
+    filter(Treatment == "Sub" | Treatment == "Cntrl" ) %>%
     group_by(id) %>%
     do({
       t <- .
       pid <- unique(t$id)
       
-      S <- t %>%
-        filter(Treatment == "ATP")
-      
-      nS <- t %>%
-        filter(Treatment != "ATP")
-      
+      S <- t %>% filter(Treatment == "Sub")
+      nS <- t %>% filter(Treatment != "Sub")
       
       if(nrow(S) >= 2 & nrow(nS) >= 2){
         t.test <- try(t.test(S$estimate, nS$estimate, var.equal = T)$p.value, silent = T)
@@ -106,7 +94,7 @@ siesta_analysis <- function(results, treatment, vehicle){
     summarise(mean.estimate = mean(estimate, na.rm = T))
   
   t <- p %>%
-    filter(Treatment == "ATP" | Treatment == "C" ) %>%
+    filter(Treatment == "Sub" | Treatment == "Cntrl" ) %>%
     spread(Treatment, mean.estimate) %>%
     drop_na()
   
@@ -117,10 +105,10 @@ siesta_analysis <- function(results, treatment, vehicle){
   
   # plot ES-E vs ES-S
   t <- p %>%
-    filter(Treatment != "C") %>%
+    filter(Treatment != "Cntrl") %>%
     spread(Treatment, mean.estimate) %>%
-    mutate("ES-E" = ATPEnz - Enz) %>%
-    mutate("ES-S" = ATPEnz - ATP) %>%
+    mutate("ES-E" = SubEnz - Enz) %>%
+    mutate("ES-S" = ATPEnz - Sub) %>%
     drop_na()
   
   ggplot(t) +
