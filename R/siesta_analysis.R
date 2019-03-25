@@ -108,7 +108,7 @@ siesta_analysis <- function(results, treatment, vehicle){
     filter(Treatment != "Cntrl") %>%
     spread(Treatment, mean.estimate) %>%
     mutate("ES-E" = SubEnz - Enz) %>%
-    mutate("ES-S" = ATPEnz - Sub) %>%
+    mutate("ES-S" = SubEnz - Sub) %>%
     drop_na()
   
   ggplot(t) +
