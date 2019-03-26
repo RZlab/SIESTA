@@ -45,7 +45,7 @@ siesta_curves <- function(data = normdata,
             ungroup() %>%
             mutate(id = pid) -> result
           
-          if (nrow(result) > 1) {
+          if (nrow(result) >= 1) {
             temps <- unique(pepdata$Temperature)
             xtemps <- seq(min(temps), max(temps), length.out = 100)
             pepdata_m =  models %>%
