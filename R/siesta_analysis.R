@@ -33,7 +33,13 @@ siesta_analysis <- function(results, treatment, vehicle){
                             mean.nES = mean(nES$estimate, na.rm = T),
                             p.value = t.test)
         }
+       else{
+       res <- data.frame()
+       }
       }
+     else{
+       res <- data.frame()
+       }
       res
     })
   write_tsv(rES, "ES_vs_nES.tsv")
@@ -58,7 +64,13 @@ siesta_analysis <- function(results, treatment, vehicle){
                             mean.nE = mean(nE$estimate, na.rm = T),
                             p.value = t.test)
         }
+       else{
+       res <- data.frame()
+       }
       }
+     else{
+       res <- data.frame()
+       }
       res
     })
   write_tsv(rE, "E_vs_nE.tsv")
@@ -83,7 +95,13 @@ siesta_analysis <- function(results, treatment, vehicle){
                             mean.nS = mean(nS$estimate, na.rm = T),
                             p.value = t.test)
         }
+       else{
+       res <- data.frame()
+       }
       }
+     else{
+       res <- data.frame()
+       }
       res
     })
   write_tsv(rS, "E_vs_nE.tsv")
