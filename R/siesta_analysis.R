@@ -1,7 +1,13 @@
 siesta_analysis <- function(results, treatment, vehicle){
  require(broom)
-  require(tidyverse)
+ require(tidyverse)
 
+ results_export <- results %>%
+    filter(term == "Tm") %>%
+    dplyr::select(-c(term, std.error:rSquared)) %>%
+    mutate("Treatment" = gsub("\\_.*", "", Sample))
+  write_tsv(results_export, "results_export.tsv")
+ 
   results.t <- results %>%
     filter(rSquared >= 0.95) %>%
     filter(term == "Tm") %>%
