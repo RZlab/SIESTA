@@ -8,12 +8,12 @@ siesta_analysis <- function(results, treatment, vehicle){
     dplyr::select(-c(term, std.error:rSquared)) %>%
     separate(Sample, sep = "_", remove = F, c("Cell_line", "Treatment", "Rep"))
   
-  g <- ggplot(results.t) +
+  ggplot(results.t) +
     geom_density(aes(x = estimate, fill = Sample), alpha = 0.2) +
     facet_wrap(~Treatment, ncol = 2) +
     theme_minimal() +
     theme(legend.position = "bottom")
- ggsave(g, "Tm_distribution.pdf")
+ ggsave("Tm_distribution.pdf")
   
   #CoFaEnzy vs. (Enzy, CoFa, Cntrl)
   rES <- results.t %>%
@@ -117,10 +117,10 @@ siesta_analysis <- function(results, treatment, vehicle){
     spread(Treatment, mean.estimate) %>%
     drop_na()
   
-  g <- ggplot(t) +
+  ggplot(t) +
     geom_point(aes(x = Cntrl, y = CoFa), alpha = 0.5) +
     theme_minimal()
-  ggsave(g, "CoFa_vs_Cntrl.pdf")
+  ggsave("CoFa_vs_Cntrl.pdf")
   
   # plot ES-E vs ES-S
   t <- p %>%
@@ -130,10 +130,10 @@ siesta_analysis <- function(results, treatment, vehicle){
     mutate("CoFaEnzy-CoFa" = CoFaEnzy - CoFa) %>%
     drop_na()
   
-  g <- ggplot(t) +
+  ggplot(t) +
     geom_point(aes(x = `CoFaEnzy-Enzy`, y = `CoFaEnzy-CoFa`), alpha = 0.5) +
     theme_minimal() +
     geom_hline(yintercept = 0) +
     geom_vline(xintercept = 0)
- ggsave(g, "siesta_plot.pdf")
+ ggsave("siesta_plot.pdf")
 }
