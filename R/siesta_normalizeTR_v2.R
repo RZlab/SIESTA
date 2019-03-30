@@ -40,7 +40,7 @@ siesta_normalizeTR_v2 <- function(data, limits = list("low" = c(42, 0.8), "high"
   model_best <- models$model[[1]]
   message(sprintf("Normalization curve R-squared: %.2f", models$Rsq[[1]]))
   
-  if(nrow(good_proteins) >= nrow(data %>% distinct(id))/4){
+  if(nrow(good_proteins) <= nrow(data %>% distinct(id))/4){
     s_data <- data %>%
     filter(Sample == models$sample[1])
   
