@@ -21,7 +21,7 @@ siesta_analysis <- function(results, treatment, vehicle){
     theme(legend.position = "bottom")
  ggsave("Tm_distribution.pdf")
   
-  #CoFaEnzy vs. (Enzy, CoFa, Cntrl)
+  #CoFaEnzy vs. (Enzy, CoFa, CTRL)
   rES <- results.t %>%
     group_by(id) %>%
     do({
@@ -51,7 +51,7 @@ siesta_analysis <- function(results, treatment, vehicle){
     })
   write_tsv(rES, "CoFaEnzy_vs_nCoFaEnzy.tsv")
   
-  #Enzy vs. (CoFa, Cntrl)
+  #Enzy vs. (CoFa, CTRL)
   rE <- results.t %>%
     filter(Treatment != "SubEnz") %>%
     group_by(id) %>%
@@ -82,7 +82,7 @@ siesta_analysis <- function(results, treatment, vehicle){
     })
   write_tsv(rE, "Enzy_vs_nEnzy.tsv")
   
-  #CoFa vs. (Enzy, Cntrl)
+  #CoFa vs. (Enzy, CTRL)
   rS <- results.t %>%
     filter(Treatment != "SubEnz") %>%
     group_by(id) %>%
@@ -113,20 +113,20 @@ siesta_analysis <- function(results, treatment, vehicle){
     })
   write_tsv(rS, "CoFa_vs_nCoFa.tsv")
   
-  # plot CoFa vs Cntrl
+  # plot CoFa vs CTRL
   p <- results.t %>%
     group_by(id, Treatment) %>%
     summarise(mean.estimate = mean(estimate, na.rm = T))
   
   t <- p %>%
-    filter(Treatment == "CoFa" | Treatment == "Cntrl" ) %>%
+    filter(Treatment == "CoFa" | Treatment == "CTRL" ) %>%
     spread(Treatment, mean.estimate) %>%
     drop_na()
   
   ggplot(t) +
-    geom_point(aes(x = Cntrl, y = CoFa), alpha = 0.5) +
+    geom_point(aes(x = CTRL, y = CoFa), alpha = 0.5) +
     theme_minimal()
-  ggsave("CoFa_vs_Cntrl.pdf")
+  ggsave("CoFa_vs_CTRL.pdf")
   
   # plot ES-E vs ES-S
   t <- p %>%
