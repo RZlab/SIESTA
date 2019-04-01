@@ -49,7 +49,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
        }
       res
     })
-  write_tsv(rES,  paste("CoFaEnzy_vs_nCoFaEnzy"), rSquared.filter, ".tsv", sep = "_"))
+  write_tsv(rES,  paste("CoFaEnzy_vs_nCoFaEnzy"), rSquared.filter, ".tsv", sep = "_")
  
   #Enzy vs. (CoFa, CTRL)
   rE <- results.t %>%
@@ -80,7 +80,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
        }
       res
     })
-  write_tsv(rE,  paste("Enzy_vs_nEnzy"), rSquared.filter, ".tsv", sep = "_")) 
+  write_tsv(rE,  paste("Enzy_vs_nEnzy"), rSquared.filter, ".tsv", sep = "_")
  
   #CoFa vs. (Enzy, CTRL)
   rS <- results.t %>%
@@ -111,7 +111,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
        }
       res
     })
-  write_tsv(rS,  paste("CoFa_vs_nCoFa"), rSquared.filter, ".tsv", sep = "_")) 
+  write_tsv(rS,  paste("CoFa_vs_nCoFa"), rSquared.filter, ".tsv", sep = "_")
   # plot CoFa vs CTRL
   p <- results.t %>%
     group_by(id, Treatment) %>%
