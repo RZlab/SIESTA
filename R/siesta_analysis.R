@@ -19,7 +19,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
     facet_wrap(~Treatment, ncol = 2) +
     theme_minimal() +
     theme(legend.position = "bottom")
- ggsave(paste("Tm_distribution_"), rSquared.filter, ".pdf", sep = "_")
+ ggsave(paste("Tm_distribution_", rSquared.filter, ".pdf", sep = "_"))
   
   #CoFaEnzy vs. (Enzy, CoFa, CTRL)
   rES <- results.t %>%
@@ -49,7 +49,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
        }
       res
     })
-  write_tsv(rES,  paste("CoFaEnzy_vs_nCoFaEnzy"), rSquared.filter, ".tsv", sep = "_")
+  write_tsv(rES,  paste("CoFaEnzy_vs_nCoFaEnzy", rSquared.filter, ".tsv", sep = "_"))
  
   #Enzy vs. (CoFa, CTRL)
   rE <- results.t %>%
@@ -80,7 +80,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
        }
       res
     })
-  write_tsv(rE,  paste("Enzy_vs_nEnzy"), rSquared.filter, ".tsv", sep = "_")
+  write_tsv(rE,  paste("Enzy_vs_nEnzy", rSquared.filter, ".tsv", sep = "_"))
  
   #CoFa vs. (Enzy, CTRL)
   rS <- results.t %>%
@@ -111,7 +111,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
        }
       res
     })
-  write_tsv(rS,  paste("CoFa_vs_nCoFa"), rSquared.filter, ".tsv", sep = "_")
+  write_tsv(rS,  paste("CoFa_vs_nCoFa", rSquared.filter, ".tsv", sep = "_"))
   # plot CoFa vs CTRL
   p <- results.t %>%
     group_by(id, Treatment) %>%
@@ -125,7 +125,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
   ggplot(t) +
     geom_point(aes(x = CTRL, y = CoFa), alpha = 0.5) +
     theme_minimal()
-  ggsave(paste("CoFa_vs_CTRL"), rSquared.filter, ".pdf", sep = "_")
+  ggsave(paste("CoFa_vs_CTRL", rSquared.filter, ".pdf", sep = "_"))
  
   # plot ES-E vs ES-S
   t <- p %>%
@@ -140,5 +140,5 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
     theme_minimal() +
     geom_hline(yintercept = 0) +
     geom_vline(xintercept = 0)
- ggsave(paste("siesta_plot"), rSquared.filter, ".pdf", sep = "_")
+ ggsave(paste("siesta_plot", rSquared.filter, ".pdf", sep = "_"))
 }
