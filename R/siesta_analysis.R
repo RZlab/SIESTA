@@ -1,4 +1,4 @@
-siesta_analysis <- function(results, treatment, vehicle){
+siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95){
  require(broom)
  require(tidyverse)
 
@@ -9,7 +9,7 @@ siesta_analysis <- function(results, treatment, vehicle){
   write_tsv(results_export, "results_export.tsv")
  
   results.t <- results %>%
-    filter(rSquared >= 0.95) %>%
+    filter(rSquared >= rSquared.filter) %>%
     filter(term == "Tm") %>%
     dplyr::select(-c(term, std.error:rSquared)) %>%
     separate(Sample, sep = "_", remove = F, c("Cell_line", "Treatment", "Rep"))
@@ -19,7 +19,7 @@ siesta_analysis <- function(results, treatment, vehicle){
     facet_wrap(~Treatment, ncol = 2) +
     theme_minimal() +
     theme(legend.position = "bottom")
- ggsave("Tm_distribution.pdf")
+ ggsave(paste("Tm_distribution_"), rSquared.filter, ".pdf", sep = "_"))
   
   #CoFaEnzy vs. (Enzy, CoFa, CTRL)
   rES <- results.t %>%
@@ -49,8 +49,8 @@ siesta_analysis <- function(results, treatment, vehicle){
        }
       res
     })
-  write_tsv(rES, "CoFaEnzy_vs_nCoFaEnzy.tsv")
-  
+  write_tsv(rES,  paste("CoFaEnzy_vs_nCoFaEnzy"), rSquared.filter, ".tsv", sep = "_"))
+ 
   #Enzy vs. (CoFa, CTRL)
   rE <- results.t %>%
     filter(Treatment != "SubEnz") %>%
@@ -80,8 +80,8 @@ siesta_analysis <- function(results, treatment, vehicle){
        }
       res
     })
-  write_tsv(rE, "Enzy_vs_nEnzy.tsv")
-  
+  write_tsv(rE,  paste("Enzy_vs_nEnzy"), rSquared.filter, ".tsv", sep = "_")) 
+ 
   #CoFa vs. (Enzy, CTRL)
   rS <- results.t %>%
     filter(Treatment != "SubEnz") %>%
@@ -111,8 +111,7 @@ siesta_analysis <- function(results, treatment, vehicle){
        }
       res
     })
-  write_tsv(rS, "CoFa_vs_nCoFa.tsv")
-  
+  write_tsv(rS,  paste("CoFa_vs_nCoFa"), rSquared.filter, ".tsv", sep = "_")) 
   # plot CoFa vs CTRL
   p <- results.t %>%
     group_by(id, Treatment) %>%
@@ -126,11 +125,11 @@ siesta_analysis <- function(results, treatment, vehicle){
   ggplot(t) +
     geom_point(aes(x = CTRL, y = CoFa), alpha = 0.5) +
     theme_minimal()
-  ggsave("CoFa_vs_CTRL.pdf")
-  
+  ggsave(paste("CoFa_vs_CTRL"), rSquared.filter, ".pdf", sep = "_"))
+ 
   # plot ES-E vs ES-S
   t <- p %>%
-    filter(Treatment != "Cntrl") %>%
+    filter(Treatment != "CTRL") %>%
     spread(Treatment, mean.estimate) %>%
     mutate("CoFaEnzy-Enzy" = CoFaEnzy - Enzy) %>%
     mutate("CoFaEnzy-CoFa" = CoFaEnzy - CoFa) %>%
@@ -141,5 +140,5 @@ siesta_analysis <- function(results, treatment, vehicle){
     theme_minimal() +
     geom_hline(yintercept = 0) +
     geom_vline(xintercept = 0)
- ggsave("siesta_plot.pdf")
+ ggsave(paste("siesta_plot"), rSquared.filter, ".pdf", sep = "_"))
 }
