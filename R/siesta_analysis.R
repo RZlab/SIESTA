@@ -6,7 +6,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
     filter(term == "Tm") %>%
     dplyr::select(-c(term, std.error:rSquared)) %>%
     mutate("Treatment" = gsub("\\_.*", "", Sample))
-  write_tsv(results_export, "results_export.tsv")
+  write_tsv(results_export, "all_results_export.tsv")
  
   results.t <- results %>%
     filter(rSquared >= rSquared.filter) %>%
@@ -126,6 +126,11 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
     geom_point(aes(x = CTRL, y = CoFa), alpha = 0.5) +
     theme_minimal()
   ggsave(paste("CoFa_vs_CTRL", rSquared.filter, ".pdf", sep = "_"))
+ 
+  ggplot(t) +
+     geom_point(aes(x = log2(CoFa/CTRL), y = -log10(p.value), alpha = 0.5) +
+     theme_minimal()
+   ggsave(paste("CoFa_vs_CTRL_vulcano", rSquared.filter, ".pdf", sep = "_"))
  
   # plot ES-E vs ES-S
   t <- p %>%
