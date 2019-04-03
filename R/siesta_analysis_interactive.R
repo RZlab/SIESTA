@@ -21,8 +21,8 @@ siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.fi
     facet_wrap(~Treatment, ncol = 2) +
     theme_minimal() +
     theme(legend.position = "bottom")
-  p <- ggplotly(g)
-  saveWidget(p, paste("Tm_distribution_", rSquared.filter, ".html", sep = "_"))
+  gp <- ggplotly(g)
+  saveWidget(gp, paste("Tm_distribution_", rSquared.filter, ".html", sep = "_"))
   
   #CoFaEnzy vs. (Enzy, CoFa, CTRL)
   rES <- results.t %>%
@@ -128,14 +128,14 @@ siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.fi
   g<- ggplot(t) +
     geom_point(aes(x = CTRL, y = CoFa, id = id), alpha = 0.5) +
     theme_minimal()
-  p <- ggplotly(g)
-  saveWidget(p, paste("CoFa_vs_CTRL", rSquared.filter, ".html", sep = "_"))
+  gp <- ggplotly(g)
+  saveWidget(gp, paste("CoFa_vs_CTRL", rSquared.filter, ".html", sep = "_"))
 
   g <- ggplot(rS) +
     geom_point(aes(x = log2(mean.CoFa/mean.nCoFa), y = -log10(p.value), id = id), alpha = 0.5) +
     theme_minimal()
-  p <- ggplotly(g)
-  saveWidget(p, paste("CoFa_vs_CTRL_vulcano", rSquared.filter, ".html", sep = "_"))
+  gp <- ggplotly(g)
+  saveWidget(gp, paste("CoFa_vs_CTRL_vulcano", rSquared.filter, ".html", sep = "_"))
  
   # plot ES-E vs ES-S
   t <- p %>%
@@ -150,6 +150,6 @@ siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.fi
     theme_minimal() +
     geom_hline(yintercept = 0) +
     geom_vline(xintercept = 0)
-  p <- ggplotly(g)
-  saveWidget(p, paste("siesta_plot", rSquared.filter, ".html", sep = "_"))
+  gp <- ggplotly(g)
+  saveWidget(gp, paste("siesta_plot", rSquared.filter, ".html", sep = "_"))
 }
