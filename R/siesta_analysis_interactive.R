@@ -1,7 +1,7 @@
 siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.filter =  0.95){
  require(broom)
  require(tidyverse)
- require(plot)
+ require(plotly)
  require(htmlwidgets)
 
  results_export <- results %>%
