@@ -128,7 +128,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
   ggsave(paste("CoFa_vs_CTRL", rSquared.filter, ".pdf", sep = "_"))
  
   ggplot(t) +
-     geom_point(aes(x = log2(CoFa/CTRL), y = -log10(p.value), alpha = 0.5) +
+     geom_point(aes(x = log2(CoFa/CTRL), y = -log10(p.value)), alpha = 0.5) +
      theme_minimal()
    ggsave(paste("CoFa_vs_CTRL_vulcano", rSquared.filter, ".pdf", sep = "_"))
  
