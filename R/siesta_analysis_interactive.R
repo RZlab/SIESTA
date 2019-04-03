@@ -131,9 +131,9 @@ siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.fi
   p <- ggplotly(g)
   saveWidget(p, paste("CoFa_vs_CTRL", rSquared.filter, ".html", sep = "_"))
 
-  ggplot(t) +
-     geom_point(aes(x = log2(CoFa/CTRL), y = -log10(p.value), id = id), alpha = 0.5) +
-     theme_minimal()
+  g <- ggplot(rS) +
+    geom_point(aes(x = log2(mean.CoFa/mean.nCoFa), y = -log10(p.value), id = id), alpha = 0.5) +
+    theme_minimal()
   p <- ggplotly(g)
   saveWidget(p, paste("CoFa_vs_CTRL_vulcano", rSquared.filter, ".html", sep = "_"))
  
