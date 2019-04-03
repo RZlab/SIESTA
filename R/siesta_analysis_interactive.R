@@ -126,13 +126,13 @@ siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.fi
     drop_na()
   
   g<- ggplot(t) +
-    geom_point(aes(x = CTRL, y = CoFa), alpha = 0.5) +
+    geom_point(aes(x = CTRL, y = CoFa, id = id), alpha = 0.5) +
     theme_minimal()
   p <- ggplotly(g)
   saveWidget(p, paste("CoFa_vs_CTRL", rSquared.filter, ".html", sep = "_"))
 
   ggplot(t) +
-     geom_point(aes(x = log2(CoFa/CTRL), y = -log10(p.value)), alpha = 0.5) +
+     geom_point(aes(x = log2(CoFa/CTRL), y = -log10(p.value), id = id), alpha = 0.5) +
      theme_minimal()
   p <- ggplotly(g)
   saveWidget(p, paste("CoFa_vs_CTRL_vulcano", rSquared.filter, ".html", sep = "_"))
@@ -146,7 +146,7 @@ siesta_analysis_interactive <- function(results, treatment, vehicle, rSquared.fi
     drop_na()
   
   g<- ggplot(t) +
-    geom_point(aes(x = `CoFaEnzy-Enzy`, y = `CoFaEnzy-CoFa`), alpha = 0.5) +
+    geom_point(aes(x = `CoFaEnzy-Enzy`, y = `CoFaEnzy-CoFa`, id = id), alpha = 0.5) +
     theme_minimal() +
     geom_hline(yintercept = 0) +
     geom_vline(xintercept = 0)
