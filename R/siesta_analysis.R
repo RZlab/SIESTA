@@ -13,7 +13,12 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
     filter(term == "Tm") %>%
     dplyr::select(-c(term, std.error:rSquared)) %>%
     separate(Sample, sep = "_", remove = F, c("Cell_line", "Treatment", "Rep"))
-  
+ 
+ results_export_opls <- results_export %>%
+    select(-Treatment) %>%
+    spread(Sample, estimate)
+   write_tsv(results_export, "all_results_export_opls.tsv")
+ 
   ggplot(results.t) +
     geom_density(aes(x = estimate, fill = Sample), alpha = 0.2) +
     facet_wrap(~Treatment, ncol = 2) +
