@@ -11,7 +11,7 @@ siesta_analysis <- function(results, treatment, vehicle, rSquared.filter =  0.95
   results_export_opls <- results_export %>%
     select(-Treatment) %>%
     spread(Sample, estimate)
-   write_tsv(results_export, "all_results_export_opls.tsv")
+   write_tsv(results_export_opls, "all_results_export_opls.tsv")
  
   results.t <- results %>%
     filter(rSquared >= rSquared.filter) %>%
