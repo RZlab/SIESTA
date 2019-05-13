@@ -1,4 +1,4 @@
-siesta_plot_curves <- function(Curves = curves,
+siesta_plot_curves_Tm <- function(Curves = curves,
            Results = results,
            cores = n_cores){
     library("foreach")
