@@ -36,8 +36,7 @@ siesta_clean_proteins <- function(data = data){
     
      ggplot(s_replicates) +
         geom_bar(aes(x = Sample, y = n.proteins), position = "dodge", stat = "identity") +
-        ylim(0, 1) +
-        theme_minimal() +
+         theme_minimal() +
         theme(axis.text.x = element_text(angle = 45, hjust = 1))
       ggsave("relative_histogram_replicates.pdf")
     
