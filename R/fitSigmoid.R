@@ -1,5 +1,5 @@
-fitSigmoid <- function(data, startPars=c("Tm"=50, "Pl"=0, "b" = 0.05),maxAttempts=100){
-  fctStr <- "(1 - Pl) * 1 / (1+exp((x-Tm)/b/x)) + Pl"
+fitSigmoid <- function(data, startPars = c("Pl" = 0, "a" = 550, "b" = 10), maxAttempts = 500){
+  fctStr <- "(1 - Pl) * 1 / (1+exp(-(a/x-b))) + Pl"
   fitFct <- as.formula(paste("y ~", fctStr))
   xVec <- data[[1]]
   yVec <- data[[2]]
@@ -19,42 +19,7 @@ fitSigmoid <- function(data, startPars=c("Tm"=50, "Pl"=0, "b" = 0.05),maxAttempt
     while(repeatLoop & attempts < maxAttempts){
       parTmp <- startPars * (1 + varyPars*(runif(1, -0.2, 0.2)))
       m <- try(nls(formula=fitFct, start=parTmp, data=list(x=xVec, y=yVec), na.action=na.exclude,
-                   algorithm="port", lower=c(30.0, 0, 1e-8), upper=c(90.0, 1, 1)),
-               silent=TRUE)
-      attempts <- attempts + 1
-      varyPars <- 1
-      if (class(m)!="try-error") {
-        repeatLoop <- FALSE
-      }
-    }
-  }
-  return(m)
-}
-
-fitSigmoid_notscaled <- function(data, startPars=c("A" = NA,"Tm"=50, "Pl"=NA, "b" = 0.05),maxAttempts=100){
-  fctStr <- "A / (1+exp((x-Tm)/b/x)) + Pl"
-  fitFct <- as.formula(paste("y ~", fctStr))
-  xVec <- data[[1]]
-  yVec <- data[[2]]
-  varyPars <- 0
-
-  attempts <- 0
-  repeatLoop <- TRUE
-  startPars['A'] <- ifelse(is.na(startPars[['A']]), max(yVec), startPars[['A']])
-  startPars['Pl'] <- ifelse(is.na(startPars[['Pl']]), min(yVec), startPars[['Pl']])
-
-  ## Check if number of non-missing values is sufficient
-  ## (NLS can only handle data with at least three non-missing values)
-  validValues <- !is.na(yVec)
-  if (sum(validValues) <=2){
-    m <- NA
-    class(m) <- "try-error"
-  } else{
-    ## Perform fit
-    while(repeatLoop & attempts < maxAttempts){
-      parTmp <- startPars * (1 + varyPars*(runif(1, -0.2, 0.2)))
-      m <- try(nls(formula=fitFct, start=parTmp, data=list(x=xVec, y=yVec), na.action=na.exclude,
-                   algorithm="port",lower=c(10, 30.0, 0, 1e-8)),
+                   algorithm="port", lower=c(0.0, 1e-5, 1e-5), upper=c(1.5, 15000, 250)),
                silent=TRUE)
       attempts <- attempts + 1
       varyPars <- 1
