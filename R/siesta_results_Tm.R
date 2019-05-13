@@ -1,8 +1,9 @@
 siesta_results_Tm <- function (data = normdata,
-                               startPars = c(Tm = 50, Pl = 0, b = 0.05),
+                               startPars = c("Pl" = 0, "a" = 550, "b" = 10),
                                vehicle = c(),
                                treatment = c(),
-                               cores = n_cores) 
+                               cores = n_cores,
+                                temperatures = temperatures) 
 {
   cl <- create_cluster(cores = cores)
   cluster_library(cl, "CETSA")
@@ -35,12 +36,13 @@ siesta_results_Tm <- function (data = normdata,
           
           ur <- try(uniroot(f = function(fExpr, Tm, Pl, b ,x){eval(fExpr)},
                         fExpr = meltPExpr, Tm = coef(m)[['Tm']], b = coef(m)[['b']], Pl = coef(m)[['Pl']],
-                        interval = c(37, 67), tol = 0.0001), silent = T)
+                        interval = c(min(temperatures, max(temperatures)), tol = 0.0001),
+                            silent = T)
           if(class(ur) != "try-error"){
-            res[, "root"] = ur$root
+            res[, "Tm"] = ur$root
           }
           else{
-            res[, "root"] = NA
+            res[, "Tm"] = NA
           }
           
         }
