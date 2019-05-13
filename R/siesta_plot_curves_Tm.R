@@ -25,7 +25,8 @@ siesta_plot_curves <- function(Curves = curves,
           labs(x = "Temperature",
                y = "Value",
                title = t.curves$`Gene names`) +
-          theme(legend.position = "bottom")
+          theme(legend.position = "bottom",
+               legend.text=element_text(size = 4))
         
         suppressMessages(gg2 <- tableGrob(
           t.results %>% mutate(
