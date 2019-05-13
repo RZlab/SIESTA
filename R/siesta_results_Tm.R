@@ -48,7 +48,7 @@ siesta_results_Tm <- function (data = normdata,
           
         }
         res
-      }) %>% ungroup() %>% mutate(id = pid, `Gene names` = pgn)
+      }) %>% ungroup() %>% mutate(id = pid) %>% mutate(`Gene names` = pgn)
     }
     result
   })
