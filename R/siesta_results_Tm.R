@@ -18,6 +18,7 @@ siesta_results_Tm <- function (data = normdata,
   fitted_Tm <- data %>% partition(id) %>% do({
     pepdata <- .
     pid <- unique(pepdata$id)
+    pgn <- unique(pepdata$`Gene names`)
     models <- try(fitPeptide(pepdata, startPars), silent = T)
     result <- data_frame()
     if (class(models)[1] != "try-error") {
@@ -47,7 +48,7 @@ siesta_results_Tm <- function (data = normdata,
           
         }
         res
-      }) %>% ungroup() %>% mutate(id = pid)
+      }) %>% ungroup() %>% mutate(id = pid, `Gene names` = pgn)
     }
     result
   })
