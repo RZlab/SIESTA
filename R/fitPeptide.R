@@ -1,4 +1,4 @@
-fitPeptide <- function(pepdata, startPars=c("Tm"=50, "Pl"=0, "b" = 0.05)){
+fitPeptide <- function(pepdata, startPars = c("Pl" = 0, "a" = 550, "b" = 10)){
   pepdata %>%
     group_by(Sample) %>%
     do(
