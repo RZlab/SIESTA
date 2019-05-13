@@ -30,7 +30,7 @@ siesta_plot_curves <- function(Curves = curves,
         
         suppressMessages(gg2 <- tableGrob(
           t.results %>% mutate(
-            V = sprintf("%.2f", root),
+            V = sprintf("%.2f", Tm_root),
             R2 = sprintf("%.2f", rSquared)
           )  %>% filter(term == 'Tm') %>%
             select(Sample, V) %>%
