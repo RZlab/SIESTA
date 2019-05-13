@@ -1,5 +1,5 @@
 siesta_results_Tm <- function (data = normdata,
-                               startPars = c("Pl" = 0, "a" = 550, "b" = 10),
+                               startPars = c(Tm = 50, Pl = 0, b = 0.05),
                                vehicle = c(),
                                treatment = c(),
                                cores = n_cores,
@@ -39,10 +39,10 @@ siesta_results_Tm <- function (data = normdata,
                         interval = c(min(temperatures, max(temperatures)), tol = 0.0001),
                             silent = T)
           if(class(ur) != "try-error"){
-            res[, "Tm"] = ur$root
+            res[, "Tm_root"] = ur$root
           }
           else{
-            res[, "Tm"] = NA
+            res[, "Tm_root"] = NA
           }
           
         }
