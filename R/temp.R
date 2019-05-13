@@ -1,1 +1,1 @@
-temp <- function(){p[lot(1}
+temp <- function(){plot(1)}
