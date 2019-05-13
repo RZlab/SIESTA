@@ -1,5 +1,5 @@
-fitSigmoid <- function(data, startPars = c("Pl" = 0, "a" = 550, "b" = 10), maxAttempts = 500){
-  fctStr <- "(1 - Pl) * 1 / (1+exp(-(a/x-b))) + Pl"
+fitSigmoid <- function(data, startPars = c(Tm = 50, Pl = 0, b = 0.05), maxAttempts = 500){
+  fctStr <- "(1 - Pl) * 1 / (1+exp((x-Tm)/b/x)) + Pl"
   fitFct <- as.formula(paste("y ~", fctStr))
   xVec <- data[[1]]
   yVec <- data[[2]]
@@ -19,7 +19,7 @@ fitSigmoid <- function(data, startPars = c("Pl" = 0, "a" = 550, "b" = 10), maxAt
     while(repeatLoop & attempts < maxAttempts){
       parTmp <- startPars * (1 + varyPars*(runif(1, -0.2, 0.2)))
       m <- try(nls(formula=fitFct, start=parTmp, data=list(x=xVec, y=yVec), na.action=na.exclude,
-                   algorithm="port", lower=c(0.0, 1e-5, 1e-5), upper=c(1.5, 15000, 250)),
+                   algorithm="port", lower=c(30, 0, 1e-08), upper=c(90, 1, 1)),
                silent=TRUE)
       attempts <- attempts + 1
       varyPars <- 1
