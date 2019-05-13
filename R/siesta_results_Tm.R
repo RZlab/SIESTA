@@ -37,7 +37,7 @@ siesta_results_Tm <- function (data = normdata,
           
           ur <- try(uniroot(f = function(fExpr, Tm, Pl, b ,x){eval(fExpr)},
                         fExpr = meltPExpr, Tm = coef(m)[['Tm']], b = coef(m)[['b']], Pl = coef(m)[['Pl']],
-                        interval = c(min(temperatures), max(temperatures)), tol = 0.0001),
+                        interval = range(min(temperatures), max(temperatures)), tol = 0.0001),
                             silent = T)
           if(class(ur) != "try-error"){
             res[, "Tm_root"] = ur$root
