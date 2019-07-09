@@ -1,4 +1,4 @@
-siesta_analysis <- function(results, rSquared.filter =  0.7){
+siesta_analysis <- function(results = results, rSquared.filter =  0.7){
   library(tidyverse)
   library(plotly)
   library(ggrepel)
