@@ -11,14 +11,19 @@ siesta_clean_proteins <- function(data = data){
       mutate(completeness = n/length(temperatures)) %>%
       group_by(completeness) %>%
       summarise(nn = n()) %>%
-      mutate(prop.nn = nn/sum(nn) * 100)
+      mutate(prop.nn = nn/sum(nn) * 100) %>%
+      mutate(txt = paste0(round(prop.nn, 2), "%", '\n', 'n=', nn)) %>%
+      mutate(completeness = paste0('found in ', completeness, ' replicate(s)'))
 
-    ggplot(s_completeness, aes(x = "", y = nn, fill = as.factor(completeness)))+
-        geom_bar(width = 1, stat = "identity") +
-        coord_polar("y", start=0) +
-        theme_void() +
-        geom_text(aes(label = paste0(round(prop.nn, 1), "%")), position = position_stack(vjust = 0.5)) +
-        theme(legend.position = "bottom")
+    s_completeness$pos = (cumsum(c(0, s_completeness$nn)) + c(s_completeness$nn / 2, .01))[1:nrow(s_completeness)]
+
+    ggplot(s_completeness, aes(1, nn, fill = completeness)) +
+      geom_col(color = 'black', position = position_stack(reverse = T), show.legend = T, alpha = 0.7) +
+      geom_text_repel(aes(x = 1.4, y = pos, label = txt), nudge_x = 0.3, segment.size = 0.7, show.legend = F) +
+      coord_polar('y') +
+      theme_void() +
+      theme(legend.position = 'bottom') +
+      scale_fill_manual(values = c("#F8766D", "#999999", "#4287f5", "#60f542", "#150b3b", "#cf0c0c", "#1ad6b1", "#d6d01a"))
     ggsave("histogram_completeness.pdf")
            
     s_replicates <- data %>%
